@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+    crossorigin="anonymous">
+  <link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .side-nav{
+    top: 65px;
+    width: 250px;
+}
+</style>
+  <title>Mini WordPress</title>
+</head>
+
+<body>
+  <!--START NAVBAR -->
+  <nav>
+    <div class="nav-wrapper">
+      <!-- <a href="#" class="brand-logo center">Logo</a> -->
+      <a href="#" data-target="menu" class="sidenav-trigger"><i class="material-icons">My Sites</i></a>
+      <a href="#">Reader</a>
+      <ul class="right valign-wrapper">
+        <li>
+          <form>
+            <input id="search" type="search" required style="width : 100px" placeholder="search">
+          </form>
+        </li>
+        <li><a href="#">
+            <img src="https://pbs.twimg.com/media/Cu9fy-qWIAALCHd.jpg" alt="" class="circle responsive-img valign-wrapper"
+              style="width : 30px; height : 30px">
+          </a></li>
+        <li><a href="#">
+            <img src="https://cdn.pixabay.com/photo/2015/12/16/17/41/bell-1096280_960_720.png" alt="" class="circle responsive-img valign-wrapper"
+              style="width : 30px; height : 30px">
+          </a></li>
+      </ul>
+    </div>
+  </nav>
+  <!--END NAVBAR-->
+  <div class="row">
+    <!-- START SIDE BAR -->
+    <div class="col l4 xl3">
+      <ul class="sidenav sidenav-fixed" id="menu">
+        <li><img class="circle responsive-img" src="https://cdn.logojoy.com/wp-content/uploads/2018/08/23143930/pink-logo-barbie.jpg"
+            alt=""></li>
+        <form>
+          <div class="input-field">
+            <input id="search" type="search" required>
+            <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+          </div>
+        </form>
+        <li><a href="sass.html">Sass</a></li>
+        <li><a href="badges.html">Components</a></li>
+        <li><a href="collapsible.html">Javascript</a></li>
+        <li><a href="mobile.html">Mobile</a></li>
+      </ul>
+    </div>
+    <!--END SIDE BAR -->
+    <!--START CONTENT-->
+    <div class="col m12 l8 xl9" style="height :1000px">
+      <div class="card-panel indigo lighten-5 row" style="height :1000px" id="app">
+        <div class="containter">
+          <ul class="tabs tabs-fixed-width tab-demo z-depth-1">
+            <li class="tab"><a class="active" @click="write" href="#test1">Write</a></li>
+            <li class="tab"><a href="#test2" ref="article">Article</a></li>
+            <li class="tab"><a href="#test3" ref="detail">Detail</a></li>
+            <li class="tab"><a href="#test4" ref="edit">Edit</a></li>
+          </ul>
+          <div id="test1" class="col s12">
+            <div class="card-panel white row">
+              <div class="content">
+                <form class="row" method="POST" v-on:submit.prevent="addArticle()">
+                  <button class="btn waves-effect waves-light" type="submit" name="action">SUBMIT</button>
+                  <input type="text" v-model="newTitle" id="input_text" placeholder="title" />
+                  <wysiwyg type="text" v-model="newArticle" />
+                </form>
+              </div>
+            </div>
+          </div>
+          <div id="test2" class="col s12">
+            <div class="card-panel white row">
+              <!-- <form method="POST" v-on:submit.prevent="search"> -->
+              <div class="input-field">
+                <input v-model="search_article" id="search" type="search" required>
+                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+              </div>
+              <!-- </form> -->
+              <div class="card-panel white row" v-for="(article, index) in articles">
+                <div class="col">
+                  <p>{{article.title}}</p>
+                  <button href="#test3" v-on:click="showDetail(article,index)" class="btn waves-effect waves-light">detail</button>
+                  <button v-on:click="editArticle(article, index)" class="btn waves-effect waves-light right">Edit</button>
+                  <button v-on:click="deleteArticle(article, index)" class="btn waves-effect waves-light right">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="test3" class="col s11">
+            <div class="card-panel white">
+              <h2 v-show="newTitle">{{newTitle}}</h2>
+              <div v-html="newArticle"> {{newArticle}}</div>
+            </div>
+          </div>
+        </div>
+        <div id="test4" class="col s12">
+          <div class="card-panel white row">
+            <div class="container">
+              <form class="row" method="POST" v-on:submit.prevent="addArticle()">
+                <button class="btn waves-effect waves-light" type="submit" name="action">SUBMIT</button>
+                <input type="text" v-model="newTitle" id="input_text" placeholder="title" />
+                <wysiwyg type="text" v-model="newArticle" />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="/vueWysiwyg.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="./index.js"></script>
+</body>
+
+</html>
