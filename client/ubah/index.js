@@ -12,6 +12,11 @@ $(document).ready(function () {
   $('.tabs').tabs();
 })
 
+$(document).ready(function(){
+  $('.collapsible').collapsible()
+
+})
+
 const app = new Vue({
   el: "#app",
   components: {
@@ -35,8 +40,7 @@ const app = new Vue({
     id : '',
     newArticle: '',
     newTitle: '',
-    articles: [],
-    updateArticle : {}
+    articles: []
   },
   computed : {
     filterArticle() {
@@ -52,7 +56,7 @@ const app = new Vue({
   },
   methods: {
     addArticle() {
-      if(this.action == 'edit') {
+      if(this.action != 'write') {
         axios.put(`${databaseUrl}/articles`, {
           id : this.id,
           title : this.newTitle,
@@ -60,10 +64,10 @@ const app = new Vue({
           created_at : new Date()
         })
         .then(({data}) => {
-          this.updateArticle.title = this.newTitle
-          this.updateArticle.content = this.newArticle
+          this.id = ''
           this.newArticle = ''
           this.newTitle = ''
+          // this.articles[this.index] = data
         })
         .catch(err => {
           console.error(err)
@@ -101,19 +105,22 @@ const app = new Vue({
       this.newTitle = data.title
     },
     editArticle(data, index) {
-      this.updateArticle = data
       this.index = index
       this.action = 'edit'
       this.id = data._id
       this.newArticle = data.content
       this.newTitle = data.title
-      this.$refs['edit'].click()
+      // this.$refs['write'].click()
       
-    }, write(action = this.action) {
-      this.id = ''
-      this.action = 'write'
-      this.newArticle = ''
-      this.newTitle = ''
+    }, write(action = "write") {
+      if(action != 'edit') {
+        this.id = ''
+        this.action = 'write'
+        this.newArticle = ''
+        this.newTitle = ''
+      }
+   
+
     }, deleteArticle(data, index) {
       axios({
         method : 'delete', 

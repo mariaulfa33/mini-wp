@@ -11,11 +11,11 @@
   <link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="./style.css">
   <style>
-    .side-nav {
-      top: 65px;
-      width: 250px;
-    }
-  </style>
+    .side-nav{
+    top: 65px;
+    width: 250px;
+}
+</style>
   <title>Mini WordPress</title>
 </head>
 
@@ -46,7 +46,7 @@
   <!--END NAVBAR-->
   <div class="row">
     <!-- START SIDE BAR -->
-    <div class="col l4 xl2">
+    <div class="col l4 xl3">
       <ul class="sidenav sidenav-fixed" id="menu">
         <li><img class="circle responsive-img" src="https://cdn.logojoy.com/wp-content/uploads/2018/08/23143930/pink-logo-barbie.jpg"
             alt=""></li>
@@ -64,11 +64,11 @@
     </div>
     <!--END SIDE BAR -->
     <!--START CONTENT-->
-    <div class="col m12 l8 xl10 z-depth-3" style="height :1000px">
+    <div class="col m12 l8 xl9" style="height :1000px">
       <div class="card-panel indigo lighten-5 row" style="height :1000px" id="app">
         <div class="containter">
           <ul class="tabs tabs-fixed-width tab-demo z-depth-1">
-            <li class="tab"><a class="active" @click="write()" href="#test1" ref="write">Write</a></li>
+            <li class="tab"><a class="active" @click="write" href="#test1">Write</a></li>
             <li class="tab"><a href="#test2" ref="article">Article</a></li>
             <li class="tab"><a href="#test3" ref="detail">Detail</a></li>
             <li class="tab"><a href="#test4" ref="edit">Edit</a></li>
@@ -78,7 +78,6 @@
               <div class="content">
                 <form class="row" method="POST" v-on:submit.prevent="addArticle()">
                   <button class="btn waves-effect waves-light" type="submit" name="action">SUBMIT</button>
-                  <!-- <button class="btn waves-effect waves-light" v-on:click="addPhotos()" >UPLOAD</button> -->
                   <input type="text" v-model="newTitle" id="input_text" placeholder="title" />
                   <wysiwyg type="text" v-model="newArticle" />
                 </form>
@@ -87,45 +86,63 @@
           </div>
           <div id="test2" class="col s12">
             <div class="card-panel white row">
+              <!-- <form method="POST" v-on:submit.prevent="search"> -->
               <div class="input-field">
                 <input v-model="search_article" id="search" type="search" required>
                 <label class="label-icon" for="search"><i class="material-icons">search</i></label>
               </div>
-
-              <div class="card-panel white row" v-for="(article, index) in articles">
-                <div class="col">
+              <!-- </form> -->
+              <ul class="collapsible card-panel white row" id="main">
+                <li v-for="(article, index) in articles">
+                  <div class="collapsible-header">
+                    <p>{{article.title}}</p>
+                  </div>
+                  <div class="collapsible-body">
+                    <ul class="o"
+                    <!-- <button href="#test3" v-on:click="showDetail(article,index)" class="btn waves-effect waves-light">detail</button>
+                    <button v-on:click="editArticle(article, index)" class="btn waves-effect waves-light">Edit</button>
+                    <button v-on:click="deleteArticle(article, index)" class="btn waves-effect waves-light">Delete</button> -->
+                  </div>
+                </li>
+              </ul>
+              <!-- <div class="card-panel white row" v-for="(article, index) in articles"> -->
+                <!-- <div class="col">
                   <p>{{article.title}}</p>
-                  <button href="#test3" v-on:click="showDetail(article, index)" class="btn waves-effect waves-light">detail</button>
+                  <button href="#test3" v-on:click="showDetail(article,index)" class="btn waves-effect waves-light">detail</button>
                   <button v-on:click="editArticle(article, index)" class="btn waves-effect waves-light right">Edit</button>
                   <button v-on:click="deleteArticle(article, index)" class="btn waves-effect waves-light right">Delete</button>
                 </div>
-              </div>
+                <form class="row" method="POST" v-on:submit.prevent="addArticle()">
+                  <button class="btn waves-effect waves-light" type="submit" name="action">SUBMIT</button>
+                  <input type="text" v-model="newTitle" id="input_text" placeholder="title" />
+                  <wysiwyg type="text" v-model="newArticle" />
+                </form> -->
+              <!-- </div> -->
             </div>
           </div>
           <div id="test3" class="col s12">
             <div class="card-panel white row">
               <h2 v-show="newTitle">{{newTitle}}</h2>
-              <div v-html="newArticle" class="col11"> {{newArticle}}</div>
-            </div>
-          </div>
-          <div id="test4" class="col s12">
-            <div class="card-panel white row">
-              <form class="row" method="POST" v-on:submit.prevent="addArticle()">
-                <button class="btn waves-effect waves-light" type="submit" name="action">SUBMIT</button>
-                <input type="text" v-model="newTitle" id="input_text" placeholder="title" />
-                <wysiwyg type="text" v-model="newArticle" />
-              </form>
+              <div v-html="newArticle"> {{newArticle}}</div>
             </div>
           </div>
         </div>
+        <div id="test4" class="col s12">
+          <div class="card-panel white row">
+
+
+          </div>
+
+        </div>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="/vueWysiwyg.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="./index.js"></script>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="/vueWysiwyg.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="./index.js"></script>
 </body>
 
 </html>
