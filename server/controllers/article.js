@@ -3,10 +3,17 @@ const Article = require('../models/article')
 class ArticleController {
 
   static create(req, res) {
+    console.log(req.body)
+    let image = ''
+    if(req.file) {
+      image = req.file.cloudStoragePublicUrl
+    }
+    console.log(req.file)
     Article.create({
       title: req.body.title,
       content : req.body.content,
-      created_at : req.body.created_at
+      created_at : new Date(),
+      image : image
     })
     .then(data => {
       res.status(200).json(data)

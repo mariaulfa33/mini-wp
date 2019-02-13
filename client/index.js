@@ -36,7 +36,8 @@ const app = new Vue({
     newArticle: '',
     newTitle: '',
     articles: [],
-    updateArticle : {}
+    updateArticle : {},
+    files : []
   },
   computed : {
     filterArticle() {
@@ -57,7 +58,7 @@ const app = new Vue({
           id : this.id,
           title : this.newTitle,
           content : this.newArticle,
-          created_at : new Date()
+          created_at : new Date(), 
         })
         .then(({data}) => {
           this.updateArticle.title = this.newTitle
@@ -69,10 +70,16 @@ const app = new Vue({
           console.error(err)
         })
       } else {
-        axios.post(`${databaseUrl}/articles`, {
-          title : this.newTitle,
-          content : this.newArticle,
-          created_at : new Date()
+        const formData = new FormData()
+        formData.append('image', this.files[0])
+        formData.append('title', this.newTitle)
+        formData.append('content', this.newArticle)
+        console.log(this.files)
+        axios({
+          method : 'post', 
+          url : `${databaseUrl}/articles`,
+          headers : {"Content-Type" : 'multipart/form-data'},
+          data : formData
         })
         .then(({data}) => {
           this.articles.push(data)
@@ -128,6 +135,8 @@ const app = new Vue({
       .catch(err => {
         console.error(err)
       })
+    }, previewFiles() {
+      this.files = this.$refs.myFiles.files
     }
   }
 })

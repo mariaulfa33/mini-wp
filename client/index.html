@@ -77,8 +77,9 @@
             <div class="card-panel white row">
               <div class="content">
                 <form class="row" method="POST" v-on:submit.prevent="addArticle()">
-                  <button class="btn waves-effect waves-light" type="submit" name="action">SUBMIT</button>
-                  <!-- <button class="btn waves-effect waves-light" v-on:click="addPhotos()" >UPLOAD</button> -->
+                  <button class="btn waves-effect waves-light" type="submit" name="action">SUBMIT</button> <br><br>
+                  <input type="file" id="file" ref="myFiles" class="custom-file-input" @change="previewFiles" multiple>
+                  <!-- <button class="btn waves-effect waves-light" v-on:click="addPhotos()">UPLOAD</button> -->
                   <input type="text" v-model="newTitle" id="input_text" placeholder="title" />
                   <wysiwyg type="text" v-model="newArticle" />
                 </form>
