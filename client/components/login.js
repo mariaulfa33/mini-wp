@@ -45,9 +45,11 @@ Vue.component('login-user', {
       .then(({data}) => {
         localStorage.setItem('token', data.token)
         this.getUserData()
+        swal("Hello!", "Welcome Back!", "success")
       })
       .catch(err => {
         this.$emit('is-login', false)
+        swal("Sorry!", "we've got some problems", "error")
       })
     },
     getUserData() {
@@ -62,6 +64,7 @@ Vue.component('login-user', {
         this.$emit('my-story', data)
       })
       .catch(err => {
+        swal("Sorry!", "we've got some problems", "error")
         this.$emit('is-login', false)
       })
     }

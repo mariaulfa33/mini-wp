@@ -41,7 +41,7 @@ Vue.component('article-user', {
       })
     }, 
     searchByTag(value) {
-      console.log(value)
+      this.$emit('search-by-tag', value)
     }
   },
   template: `
@@ -57,12 +57,10 @@ Vue.component('article-user', {
     <div class="card-body" v-if="showarticle">
       <p>Author: </p>
       <a href="#" class="card-link" v-if="article.author">{{article.author.name}}</a> <br>
-      <!-- <a href="#" class="card-link">Comments</a> -->
     </div>
     <div v-if="showmyarticle">
       <button type="button" class="btn btn-outline-danger" @click="editArticle(article)">Edit</button>
       <button type="button" class="btn btn-outline-danger" @click="deleteArticle(article)">Delete</button>
-      <button type="button" class="btn btn-outline-danger">Share</button>
     </div>
     <div class= "card-body">
     <a href="#" class="badge badge-danger" v-for="tag in article.tags" @click.prevent="searchByTag(tag)">{{tag}}</a>

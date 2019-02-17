@@ -21,10 +21,12 @@ Vue.component('register-user', {
       })
       .then(({data}) => {
         console.log(data)
+        swal("Welcome!", "now, please login", "success")
         //kasih notif udah berhasil
       })
       .catch(err => {
         console.log(err)
+        swal("Sorry", "we cannot register you yet, please use google sign in or make sure you fill the form right", "danger")
       })
     }
   },

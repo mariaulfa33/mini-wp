@@ -7,78 +7,10 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
     crossorigin="anonymous">
-    <link rel="stylesheet" href="components/style.css">
-    <meta name="google-signin-client_id" content="1061187022160-pvscbjvom1vrfjadl355hcv5hjf19kb3.apps.googleusercontent.com">
- <style>
-    @import url(//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css);
-
-.detailBox {
-    width:100%;
-    border:1px solid #bbb;
-    margin-top: 10px
-}
-.titleBox {
-    background-color:#fdfdfd;
-    padding:10px;
-}
-.titleBox label{
-  color:#444;
-  margin:0;
-  display:inline-block;
-}
-
-.commentBox {
-    padding:10px;
-    border-top:1px dotted #bbb;
-}
-.commentBox .form-group:first-child, .actionBox .form-group:first-child {
-    width:80%;
-}
-.commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
-    width:18%;
-}
-.actionBox .form-group * {
-    width:100%;
-}
-.taskDescription {
-    margin-top:10px 0;
-}
-.commentList {
-    padding:0;
-    list-style:none;
-    max-height:200px;
-    overflow:auto;
-}
-.commentList li {
-    margin:0;
-    margin-top:10px;
-}
-.commentList li > div {
-    display:table-cell;
-}
-.commenterImage {
-    width:30px;
-    margin-right:5px;
-    height:100%;
-    float:left;
-}
-.commenterImage img {
-    width:100%;
-    border-radius:50%;
-}
-.commentText p {
-    margin:0;
-}
-.sub-text {
-    color:#aaa;
-    font-family:verdana;
-    font-size:11px;
-}
-.actionBox {
-    border-top:1px dotted #bbb;
-    padding:10px;
-}
-</style>
+  <link rel="stylesheet" href="components/style.css">
+  <meta name="google-signin-client_id" content="1061187022160-pvscbjvom1vrfjadl355hcv5hjf19kb3.apps.googleusercontent.com">
+  <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+  <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
   <title>My Press</title>
 </head>
 
@@ -91,37 +23,37 @@
       <a class="nav-link mr-auto" href="#" @click="home">Home</a>
       <a v-if="isLogin" class="nav-link mr-auto" href="#" @click="mystory">My Story</a>
       <a v-if="isLogin" class="nav-link mr-auto" href="#" @click="createStory">Create Story</a>
-      <form class="form-inline p-2" @submit.prevent="searchArticle">
+      <form class="form-inline p-2" @submit.prevent="searchArticle()">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="search">
         <button class="btn my-2 my-sm-0" type="submit">Search</button>
       </form>
     </nav>
 
     <!--START CONTENT-->
-    <login-user v-if="showLogin" @my-story="inputStory" ></login-user>
+    <login-user v-if="showLogin" @my-story="inputStory"></login-user>
     <register-user v-if="showRegister"></register-user>
     <form-article v-if="showForm" @new-story="pushStory" :editarticle="editedArticle" @edit-story="editstory" @cancel-edit="cancelEdit"> </form-article>
-    <article-user v-if="showArticle" :showarticle="showArticle" :showmyarticle="showMyStory" :article="article" v-for="article in articles" :key="article._id" ></article-user>
-    <article-user v-if="showMyStory" :showarticle="showArticle" :showmyarticle="showMyStory" :article="article" v-for="article in myArticles" :key="article._id" @edit-article="editArticle" @delete-article="deleteArticle"></article-user>
+    <article-user v-if="showArticle" :showarticle="showArticle" :showmyarticle="showMyStory" :article="article" v-for="article in articles" :key="article._id" @search-by-tag="searchArticle"></article-user>
+    <article-user v-if="showMyStory" :showarticle="showArticle" :showmyarticle="showMyStory" :article="article" v-for="article in myArticles" :key="article._id" @edit-article="editArticle" @delete-article="deleteArticle" @search-by-tag="searchArticle"></article-user>
+    <article-user v-if="showSearch" :showarticle="showArticle" :article="article" v-for="article in searchedArticles" :key="article._id" @search-by-tag="searchArticle"></article-user>   
 
   </div>
+
   <footer class="page-footer font-small blue bg-light">
-      <!-- Copyright -->
-      <div class="footer-copyright text-center py-3">© 2019 Copyright:
-        <a href="">ketiktak.mariaulfa.work</a>
-      </div>
-      <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2019 Copyright:
+      <a href="">ketiktak.mariaulfa.work</a>
+    </div>
   </footer>
+
   <script src="https://apis.google.com/js/platform.js" async defer></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-vue@2.0.0-rc.12/dist/bootstrap-vue.common.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="./components/vueWysiwyg.js"></script>
   <script src="./components/formArticle.js"></script>
   <script src="./components//article.js"></script>

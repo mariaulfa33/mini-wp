@@ -20,6 +20,8 @@ Vue.component('top-header', {
         auth2.signOut().then(function () {
         })
       }
+
+      swal("your article is great!", "can't wait for more", "success")
     }
   },
   template: `

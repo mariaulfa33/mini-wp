@@ -6,13 +6,15 @@ const app = new Vue({
     articles : [],
     myArticles : [],
     editedArticle : {},
+    searchedArticles : [],
+    search : '',
     showLogin : false,
     showArticle : true,
     showRegister: false,
     showMyStory : false,
     isLogin : false,
     showForm : false,
-    search : ''
+    showSearch : false
   },
   created() {
     this.getAllData()
@@ -22,9 +24,6 @@ const app = new Vue({
     } else {
 
     }
-  },
-  computed : {
-    
   },
   methods : {
     login(payload) {
@@ -72,6 +71,7 @@ const app = new Vue({
       this.showRegister= false
       this.showMyStory = false
       this.showForm = false
+      this.showSearch = false
     },
     mystory() {
       this.showLogin = false
@@ -79,6 +79,7 @@ const app = new Vue({
       this.showMyStory = true
       this.showRegister= false
       this.showForm = false
+      this.showSearch = false
       this.isLogin = true
     },
     inputStory(payload) {
@@ -92,6 +93,7 @@ const app = new Vue({
       this.showArticle = false
       this.showLogin = false
       this.showForm = false
+      this.showSearch = false
       
     }, 
     createStory() {
@@ -100,6 +102,7 @@ const app = new Vue({
       this.showRegister = false
       this.showForm = true
       this.showMyStory = false
+      this.showSearch = false
       this.editedArticle = {}
 
     }, 
@@ -111,16 +114,14 @@ const app = new Vue({
     }, 
     editArticle(payload) {
       this.createStory()
-      this.editedArticle = payload
-      // console.log('AWAL : ', this.editedArticle)    
+      this.editedArticle = payload  
     }, 
 
     editstory(payload) {
       this.editedArticle = payload
       this.getAllData()
       this.getMyArticles()
-      this.mystory()
-      // console.log('AKHIR : ', this.editedArticle)    
+      this.mystory()   
     },
 
     cancelEdit(payload) {
@@ -132,21 +133,29 @@ const app = new Vue({
       this.getMyArticles()
       this.mystory()
     }, 
-    searchArticle() {
-      if(this.search != '') {
-        axios({
-          method : 'get',
-          url : `${serverUrl}/search?search=${this.search}`
-        })
-        .then(({data}) => {
-          console.log(data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
+    searchArticle(payload) {
+      let search
+      if(this.search == '') {
+        search = payload
       } else {
-        this.getAllData()
+        search = this.search
       }
+      axios({
+        method : 'get',
+        url : `${serverUrl}/search?search=${search}`
+      })
+      .then(({data}) => {
+        this.searchedArticles = data
+        this.showLogin = false
+        this.showArticle = false
+        this.showRegister = false
+        this.showForm = false
+        this.showMyStory = false
+        this.showSearch = true
+      })
+      .catch(err => {
+        console.log(err)
+      })
     }
   },
 }) 

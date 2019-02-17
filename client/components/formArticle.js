@@ -1,7 +1,7 @@
 Vue.component('form-article', {
   props: ['editarticle', 'article'],
   mounted() {
-    if(this.editarticle._id) {
+    if (this.editarticle._id) {
       this.editStatus = true
       this.title = this.editarticle.title
       this.description = this.editarticle.description
@@ -13,22 +13,22 @@ Vue.component('form-article', {
   },
   data() {
     return {
-      editStatus : false,
+      editStatus: false,
       title: '',
       description: '',
       content: '',
       tags: '',
-      files : '',
-      imageUrl : '',
+      files: '',
+      imageUrl: '',
       counter: 0,
       max: 100,
-      start : ''
+      start: ''
     }
   },
   methods: {
     addArticle() {
       this.start = true
-      const formData = new FormData()
+      let formData = new FormData()
       formData.append('image', this.files[0])
       formData.append('title', this.title)
       formData.append('description', this.description)
@@ -36,52 +36,99 @@ Vue.component('form-article', {
       formData.append('tags', this.tags)
       this.counter = 50
       axios({
-        method : 'post',
-        url : `${serverUrl}/articles`,
-        headers : {
-          token : localStorage.getItem('token')
-        },
-        data : formData
-      })
-      .then(({data}) => {
-        this.counter = 100
-        this.$emit('new-story', data)
-      }) 
-      .catch(err => {
-        console.log(err)
-      })
+          method: 'post',
+          url: `${serverUrl}/articles`,
+          headers: {
+            token: localStorage.getItem('token')
+          },
+          data: formData
+        })
+        .then(({data}) => {
+          this.counter = 100
+          this.$emit('new-story', data)
+          swal("Congratulation", "Your article is now on top!", "success")
+        })
+        .catch(err => {
+          console.log(err)
+          swal("Sorry", "We cannot publish your article yet", "danger")
+        })
     },
     previewFiles() {
       this.files = this.$refs.myFiles.files
       this.imageUrl = URL.createObjectURL(this.files[0])
     },
     edit() {
-      if(!this.files) {
-        console.log(this.editarticle._id)
+      this.start = true
+      if (!this.files) {
         axios({
-          method : 'patch',
-          url : `${serverUrl}/articles/${this.editarticle._id}`,
-          headers : {
-            token : localStorage.getItem('token')
-          },
-          data : {
-            title : this.title,
-            description : this.description,
-            content : this.content,
-            feature_image : this.imageUrl,
-            tags : this.tags.split(' ')
-          }
-        })
-        .then(({data}) => {
-          this.counter = 100
-          this.$emit('edit-story', data)
-          console.log(data)
-        }) 
-        .catch(err => {
-          console.log(err)
-        })
+            method: 'patch',
+            url: `${serverUrl}/articles/${this.editarticle._id}`,
+            headers: {
+              token: localStorage.getItem('token')
+            },
+            data: {
+              title: this.title,
+              description: this.description,
+              content: this.content,
+              feature_image: this.imageUrl,
+              tags: this.tags.split(' ')
+            }
+          })
+          .then(({
+            data
+          }) => {
+            this.counter = 100
+            this.$emit('edit-story', data)
+            swal("Congratulation", "Your article is updated!", "success")
+            console.log(data)
+          })
+          .catch(err => {
+            console.log(err)
+            swal("Sorry", "We cannot edit your article yet", "danger")
+          })
       } else {
-        console.log('===')
+        this.counter = 25
+        let formData = new FormData()
+        formData.append('image', this.files[0])
+        console.log(this.files[0])
+          axios({ 
+            method: 'post',
+            url: `${serverUrl}/uploadImage`,
+            headers: {
+              token: localStorage.getItem('token')
+            },
+            data: formData
+          })
+          .then(({data}) => {
+            console.log(data)
+            this.counter = 50
+            return axios({
+              method: 'patch',
+              url: `${serverUrl}/articles/${this.editarticle._id}`,
+              headers: {
+                token: localStorage.getItem('token')
+              },
+              data: {
+                title: this.title,
+                description: this.description,
+                content: this.content,
+                feature_image: data.imageUrl,
+                tags: this.tags.split(' ')
+              }
+            })
+          })
+          .then(({
+            data
+          }) => {
+            this.counter = 100
+            this.$emit('edit-story', data)
+            console.log(data)
+            swal("Congratulation", "Your article is updated!", "success")
+          })
+          .catch(err => {
+            console.log(err)
+            swal("Sorry", "We cannot update your article yet", "danger")
+          })
       }
     },
     cancel() {

@@ -16,6 +16,14 @@ router.use(authentication)
 router.use('/articles/user', articleController.findByUser)
 router.post('/articles',  images.multer.single('image') , images.sendUploadToGCS , articleController.create)
 
+router.post('/uploadImage', images.multer.single('image') , images.sendUploadToGCS , (req, res) => {
+  let image = ''
+  if (req.file) {
+    image = req.file.cloudStoragePublicUrl
+  }
+  console.log( '===================',image)
+  res.status(201).json({imageUrl : image})
+})
 // router.put('/articles/:id', articleController.update)
 router.patch('/articles/:id',  authorization, articleController.patch)
 router.delete('/articles/:id', authorization, articleController.delete)
