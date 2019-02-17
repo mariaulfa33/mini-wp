@@ -5,128 +5,130 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
     crossorigin="anonymous">
-  <link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="./style.css">
-  <style>
-    .side-nav {
-      top: 65px;
-      width: 250px;
-    }
-  </style>
-  <title>Mini WordPress</title>
+    <link rel="stylesheet" href="components/style.css">
+    <meta name="google-signin-client_id" content="1061187022160-pvscbjvom1vrfjadl355hcv5hjf19kb3.apps.googleusercontent.com">
+ <style>
+    @import url(//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css);
+
+.detailBox {
+    width:100%;
+    border:1px solid #bbb;
+    margin-top: 10px
+}
+.titleBox {
+    background-color:#fdfdfd;
+    padding:10px;
+}
+.titleBox label{
+  color:#444;
+  margin:0;
+  display:inline-block;
+}
+
+.commentBox {
+    padding:10px;
+    border-top:1px dotted #bbb;
+}
+.commentBox .form-group:first-child, .actionBox .form-group:first-child {
+    width:80%;
+}
+.commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+    width:18%;
+}
+.actionBox .form-group * {
+    width:100%;
+}
+.taskDescription {
+    margin-top:10px 0;
+}
+.commentList {
+    padding:0;
+    list-style:none;
+    max-height:200px;
+    overflow:auto;
+}
+.commentList li {
+    margin:0;
+    margin-top:10px;
+}
+.commentList li > div {
+    display:table-cell;
+}
+.commenterImage {
+    width:30px;
+    margin-right:5px;
+    height:100%;
+    float:left;
+}
+.commenterImage img {
+    width:100%;
+    border-radius:50%;
+}
+.commentText p {
+    margin:0;
+}
+.sub-text {
+    color:#aaa;
+    font-family:verdana;
+    font-size:11px;
+}
+.actionBox {
+    border-top:1px dotted #bbb;
+    padding:10px;
+}
+</style>
+  <title>My Press</title>
 </head>
 
 <body>
-  <!--START NAVBAR -->
-  <nav>
-    <div class="nav-wrapper">
-      <!-- <a href="#" class="brand-logo center">Logo</a> -->
-      <a href="#" data-target="menu" class="sidenav-trigger"><i class="material-icons">My Sites</i></a>
-      <a href="#">Reader</a>
-      <ul class="right valign-wrapper">
-        <li>
-          <form>
-            <input id="search" type="search" required style="width : 100px" placeholder="search">
-          </form>
-        </li>
-        <li><a href="#">
-            <img src="https://pbs.twimg.com/media/Cu9fy-qWIAALCHd.jpg" alt="" class="circle responsive-img valign-wrapper"
-              style="width : 30px; height : 30px">
-          </a></li>
-        <li><a href="#">
-            <img src="https://cdn.pixabay.com/photo/2015/12/16/17/41/bell-1096280_960_720.png" alt="" class="circle responsive-img valign-wrapper"
-              style="width : 30px; height : 30px">
-          </a></li>
-      </ul>
-    </div>
-  </nav>
-  <!--END NAVBAR-->
-  <div class="row">
-    <!-- START SIDE BAR -->
-    <div class="col l4 xl2">
-      <ul class="sidenav sidenav-fixed" id="menu">
-        <li><img class="circle responsive-img" src="https://cdn.logojoy.com/wp-content/uploads/2018/08/23143930/pink-logo-barbie.jpg"
-            alt=""></li>
-        <form>
-          <div class="input-field">
-            <input id="search" type="search" required>
-            <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-          </div>
-        </form>
-        <li><a href="sass.html">Sass</a></li>
-        <li><a href="badges.html">Components</a></li>
-        <li><a href="collapsible.html">Javascript</a></li>
-        <li><a href="mobile.html">Mobile</a></li>
-      </ul>
-    </div>
-    <!--END SIDE BAR -->
-    <!--START CONTENT-->
-    <div class="col m12 l8 xl10 z-depth-3" style="height :1000px">
-      <div class="card-panel indigo lighten-5 row" style="height :1000px" id="app">
-        <div class="containter">
-          <ul class="tabs tabs-fixed-width tab-demo z-depth-1">
-            <li class="tab"><a class="active" @click="write()" href="#test1" ref="write">Write</a></li>
-            <li class="tab"><a href="#test2" ref="article">Article</a></li>
-            <li class="tab"><a href="#test3" ref="detail">Detail</a></li>
-            <li class="tab"><a href="#test4" ref="edit">Edit</a></li>
-          </ul>
-          <div id="test1" class="col s12">
-            <div class="card-panel white row">
-              <div class="content">
-                <form class="row" method="POST" v-on:submit.prevent="addArticle()">
-                  <button class="btn waves-effect waves-light" type="submit" name="action">SUBMIT</button> <br><br>
-                  <input type="file" id="file" ref="myFiles" class="custom-file-input" @change="previewFiles" multiple>
-                  <!-- <button class="btn waves-effect waves-light" v-on:click="addPhotos()">UPLOAD</button> -->
-                  <input type="text" v-model="newTitle" id="input_text" placeholder="title" />
-                  <wysiwyg type="text" v-model="newArticle" />
-                </form>
-              </div>
-            </div>
-          </div>
-          <div id="test2" class="col s12">
-            <div class="card-panel white row">
-              <div class="input-field">
-                <input v-model="search_article" id="search" type="search" required>
-                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-              </div>
+  <!--START HEADER-->
+  <div class="container" id="app">
+    <top-header @show-login="login" :statuslogin="isLogin" @show-register="register"></top-header>
+    <!--START NAV-->
+    <nav class="navbar navbar-expand-lg navbar-light d-flex" style="background-color:white!important">
+      <a class="nav-link mr-auto" href="#" @click="home">Home</a>
+      <a v-if="isLogin" class="nav-link mr-auto" href="#" @click="mystory">My Story</a>
+      <a v-if="isLogin" class="nav-link mr-auto" href="#" @click="createStory">Create Story</a>
+      <form class="form-inline p-2" @submit.prevent="searchArticle">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="search">
+        <button class="btn my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </nav>
 
-              <div class="card-panel white row" v-for="(article, index) in articles">
-                <div class="col">
-                  <p>{{article.title}}</p>
-                  <button href="#test3" v-on:click="showDetail(article, index)" class="btn waves-effect waves-light">detail</button>
-                  <button v-on:click="editArticle(article, index)" class="btn waves-effect waves-light right">Edit</button>
-                  <button v-on:click="deleteArticle(article, index)" class="btn waves-effect waves-light right">Delete</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="test3" class="col s12">
-            <div class="card-panel white row">
-              <h2 v-show="newTitle">{{newTitle}}</h2>
-              <div v-html="newArticle" class="col11"> {{newArticle}}</div>
-            </div>
-          </div>
-          <div id="test4" class="col s12">
-            <div class="card-panel white row">
-              <form class="row" method="POST" v-on:submit.prevent="addArticle()">
-                <button class="btn waves-effect waves-light" type="submit" name="action">SUBMIT</button>
-                <input type="text" v-model="newTitle" id="input_text" placeholder="title" />
-                <wysiwyg type="text" v-model="newArticle" />
-              </form>
-            </div>
-          </div>
-        </div>
+    <!--START CONTENT-->
+    <login-user v-if="showLogin" @my-story="inputStory" ></login-user>
+    <register-user v-if="showRegister"></register-user>
+    <form-article v-if="showForm" @new-story="pushStory" :editarticle="editedArticle" @edit-story="editstory" @cancel-edit="cancelEdit"> </form-article>
+    <article-user v-if="showArticle" :showarticle="showArticle" :showmyarticle="showMyStory" :article="article" v-for="article in articles" :key="article._id" ></article-user>
+    <article-user v-if="showMyStory" :showarticle="showArticle" :showmyarticle="showMyStory" :article="article" v-for="article in myArticles" :key="article._id" @edit-article="editArticle" @delete-article="deleteArticle"></article-user>
+
+  </div>
+  <footer class="page-footer font-small blue bg-light">
+      <!-- Copyright -->
+      <div class="footer-copyright text-center py-3">© 2019 Copyright:
+        <a href="">ketiktak.mariaulfa.work</a>
       </div>
-    </div>
+      <!-- Copyright -->
+  </footer>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="/vueWysiwyg.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="./index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-vue@2.0.0-rc.12/dist/bootstrap-vue.common.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+  <script src="./components/vueWysiwyg.js"></script>
+  <script src="./components/formArticle.js"></script>
+  <script src="./components//article.js"></script>
+  <script src="./components/login.js"></script>
+  <script src="./components//register.js"></script>
+  <script src="./components/header.js"></script>
+  <script src="./components/main.js"></script>
 </body>
 
 </html>

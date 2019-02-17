@@ -1,4 +1,5 @@
 'use strict'
+
 require('dotenv').config()
 const Storage = require('@google-cloud/storage')
 const CLOUD_BUCKET = process.env.CLOUD_BUCKET
@@ -13,14 +14,15 @@ const getPublicUrl = (filename) => {
   return `https://storage.googleapis.com/${CLOUD_BUCKET}/${filename}`
 }
 
+
 const sendUploadToGCS = (req, res, next) => {
   if (!req.file) {
     return next()
   }
 
+  req.file.originalname = req.file.originalname.split(' ').join('_')
   const gcsname = Date.now() + req.file.originalname
   const file = bucket.file(gcsname)
-
   const stream = file.createWriteStream({
     metadata: {
       contentType: req.file.mimetype
@@ -47,9 +49,8 @@ const Multer = require('multer'),
       multer = Multer({
         storage: Multer.MemoryStorage,
         limits: {
-          fileSize: 5 * 1024 * 1024
+          fieldSize: 2 * 1024 * 1024
         }
-       
       })
 
 module.exports = {
