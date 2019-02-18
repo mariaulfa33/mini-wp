@@ -1,6 +1,6 @@
 # mini-wp
 
-##List Routes
+
 | Title        | URL       | Method | Request Body | Request Header| Sucsess Response | Error Response | notes|
 | :---         |:---       | :---   |   :---:      |  :---         |       ---        |       :---     |   ---|
 |Register User | /register | POST   |   <ol> attributes <li> name(String) </li> <li> email(String) </li> <li> password(String)|  none   | <ol> attributes <li> name(String) </li> <li> email(String) </li> <li> password(String) </li> <li> type <br>(String) </li>  </ol>  |  500 : **internal server error**  | type has enum ``auto`` for 3rd party registration and ``manual`` |
