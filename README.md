@@ -25,3 +25,7 @@ CLOUD_BUCKET=<cloud bucket from google>
 GCLOUD_PROJECT= <project name for bucket>
 KEYFILE_PATH=
 ```
+
+```bash
+http://ketiktak.mariaulfa.work/
+```
