@@ -34,6 +34,9 @@ Vue.component('article-user', {
         }
       })
       .then(({data}) => {
+        swal("Okay, your article has been destroy!", {
+          icon: "success",
+      })
         this.$emit('delete-article', data)
       }) 
       .catch(err => {

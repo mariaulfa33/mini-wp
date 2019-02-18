@@ -21,10 +21,9 @@ router.post('/uploadImage', images.multer.single('image') , images.sendUploadToG
   if (req.file) {
     image = req.file.cloudStoragePublicUrl
   }
-  console.log( '===================',image)
   res.status(201).json({imageUrl : image})
 })
-// router.put('/articles/:id', articleController.update)
+
 router.patch('/articles/:id',  authorization, articleController.patch)
 router.delete('/articles/:id', authorization, articleController.delete)
 
